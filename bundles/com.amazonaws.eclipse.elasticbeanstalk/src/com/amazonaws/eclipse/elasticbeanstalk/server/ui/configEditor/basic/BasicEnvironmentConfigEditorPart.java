@@ -138,6 +138,81 @@ public class BasicEnvironmentConfigEditorPart extends AbstractEnvironmentConfigE
         model.addRefreshListener(this);
     }
 
+    private void createColumn(final FormToolkit toolkit) {
+        final Composite columnComp = toolkit.createComposite(form.getBody());
+        final GridLayout layout = new GridLayout();
+        layout.numColumns = 2;
+        layout.horizontalSpacing = 10;
+        columnComp.setLayout(layout);
+        columnComp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_FILL));
+
+        final Label restartNotice = toolkit.createLabel(columnComp, RESTART_NOTICE, SWT.WRAP);
+        final GridData layoutData = new GridData(SWT.FILL, SWT.TOP, false, false);
+        layoutData.horizontalSpan = 2;
+        layoutData.widthHint = 600; // required for wrapping
+        restartNotice.setLayoutData(layoutData);
+    }
+
+    private void createLeftColumn(final FormToolkit toolkit) {
+        final Composite leftColumnComp = toolkit.createComposite(columnComp);
+        final GridLayout layout = new GridLayout();
+        layout.marginHeight = 0;
+        layout.marginWidth = 0;
+        layout.verticalSpacing = 10;
+        layout.horizontalSpacing = 0;
+        leftColumnComp.setLayout(layout);
+        leftColumnComp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_FILL));
+    }
+
+    private void createRightColumn(final FormToolkit toolkit) {
+        final Composite rightColumnComp = toolkit.createComposite(columnComp);
+        final GridLayout layout = new GridLayout();
+        layout.marginHeight = 0;
+        layout.marginWidth = 0;
+        layout.verticalSpacing = 10;
+        layout.horizontalSpacing = 0;
+        rightColumnComp.setLayout(layout);
+        rightColumnComp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_FILL));
+    }
+
+    private void createCenterColumn(final FormToolkit toolkit) {
+        final Composite centerColumnComp = toolkit.createComposite(columnComp);
+        final GridLayout layout = new GridLayout();
+        layout.marginHeight = 0;
+        layout.marginWidth = 0;
+        layout.verticalSpacing = 10;
+        layout.horizontalSpacing = 0;
+        centerColumnComp.setLayout(layout);
+        final GridData layoutData = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_FILL);
+        layoutData.horizontalSpan = 2;
+        centerColumnComp.setLayoutData(layoutData);
+    }
+
+    private Composite createSection(final FormToolkit toolkit,
+                                    final NamespaceGroup namespaceGroup,
+                                    final Composite parentComp,
+                                    final int numColumns) {
+        final Section section = toolkit.createSection(parentComp, ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED
+                | ExpandableComposite.TITLE_BAR | ExpandableComposite.FOCUS_TITLE);
+        section.setText(namespaceGroup.getName());
+
+        final GridLayout sectionLayout = new GridLayout();
+        sectionLayout.numColumns = 1;
+        sectionLayout.verticalSpacing = 0;
+        section.setLayout(sectionLayout);
+        section.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_FILL));
+
+        final Composite comp = toolkit.createComposite(section);
+        final GridLayout compositeLayout = new GridLayout();
+        compositeLayout.numColumns = numColumns;
+        compositeLayout.verticalSpacing = 0;
+        comp.setLayout(compositeLayout);
+        comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_FILL));
+        section.setClient(comp);
+
+        return comp;
+    }
+
     @Override
     public void createPartControl(Composite parent) {
         managedForm = new ManagedForm(parent);
@@ -149,96 +224,39 @@ public class BasicEnvironmentConfigEditorPart extends AbstractEnvironmentConfigE
         form.setImage(ImageResource.getImage(ImageResource.IMG_SERVER));
         form.getBody().setLayout(new GridLayout());
 
-        Composite columnComp = toolkit.createComposite(form.getBody());
-        GridLayout layout = new GridLayout();
-        layout.numColumns = 2;
-        layout.horizontalSpacing = 10;
-        columnComp.setLayout(layout);
-        columnComp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_FILL));
-
-        Label restartNotice = toolkit.createLabel(columnComp, RESTART_NOTICE, SWT.WRAP);
-        GridData layoutData = new GridData(SWT.FILL, SWT.TOP, false, false);
-        layoutData.horizontalSpan = 2;
-        layoutData.widthHint = 600; // required for wrapping
-        restartNotice.setLayoutData(layoutData);
-
-        // left column
-        Composite leftColumnComp = toolkit.createComposite(columnComp);
-        layout = new GridLayout();
-        layout.marginHeight = 0;
-        layout.marginWidth = 0;
-        layout.verticalSpacing = 10;
-        layout.horizontalSpacing = 0;
-        leftColumnComp.setLayout(layout);
-        leftColumnComp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_FILL));
-
-        // right column
-        Composite rightColumnComp = toolkit.createComposite(columnComp);
-        layout = new GridLayout();
-        layout.marginHeight = 0;
-        layout.marginWidth = 0;
-        layout.verticalSpacing = 10;
-        layout.horizontalSpacing = 0;
-        rightColumnComp.setLayout(layout);
-        rightColumnComp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_FILL));
-
-        // "center" column -- composite below the two above, spanning both columns
-        Composite centerColumnComp = toolkit.createComposite(columnComp);
-        layout = new GridLayout();
-        layout.marginHeight = 0;
-        layout.marginWidth = 0;
-        layout.verticalSpacing = 10;
-        layout.horizontalSpacing = 0;
-        centerColumnComp.setLayout(layout);
-        layoutData = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_FILL);
-        layoutData.horizontalSpan = 2;
-        centerColumnComp.setLayoutData(layoutData);
+        createColumn(toolkit);
+        createLeftColumn(toolkit);
+        createRightColumn(toolkit);
+        createCenterColumn(toolkit);
 
         compositesByNamespace = new HashMap<>();
         for ( NamespaceGroup namespaceGroup : sectionGroups ) {
 
             Composite parentComp = null;
             switch (namespaceGroup.getPosition()) {
-            case LEFT:
-                parentComp = leftColumnComp;
-                break;
-            case RIGHT:
-                parentComp = rightColumnComp;
-                break;
-            case CENTER:
-                parentComp = centerColumnComp;
-                break;
+                case LEFT:
+                    parentComp = leftColumnComp;
+                    break;
+                case RIGHT:
+                    parentComp = rightColumnComp;
+                    break;
+                case CENTER:
+                    parentComp = centerColumnComp;
+                    break;
             }
 
-            Section section = toolkit.createSection(parentComp, ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED
-                    | ExpandableComposite.TITLE_BAR | ExpandableComposite.FOCUS_TITLE);
-            section.setText(namespaceGroup.getName());
-
-            layout = new GridLayout();
-            layout.numColumns = 1;
-            layout.verticalSpacing = 0;
-            section.setLayout(layout);
-            section.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_FILL));
-
-            Composite comp = toolkit.createComposite(section);
-            layout = new GridLayout();
             int numColumns = 0;
             switch (namespaceGroup.getPosition()) {
-            case LEFT:
-            case RIGHT:
-                numColumns = 1;
-                break;
-            case CENTER:
-                numColumns = 2;
-                break;
+                case LEFT:
+                case RIGHT:
+                    numColumns = 1;
+                    break;
+                case CENTER:
+                    numColumns = 2;
+                    break;
             }
 
-            layout.numColumns = numColumns;
-            layout.verticalSpacing = 0;
-            comp.setLayout(layout);
-            comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_FILL));
-            section.setClient(comp);
-
+            Composite comp = createSection(toolkit, namespaceGroup, parentComp, numColumns);
             for (String namespace : namespaceGroup.getIncludedNamespaces()) {
                 compositesByNamespace.put(namespace, comp);
             }
