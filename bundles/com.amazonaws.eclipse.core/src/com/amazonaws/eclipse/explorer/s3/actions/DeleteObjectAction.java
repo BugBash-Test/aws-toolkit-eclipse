@@ -78,7 +78,7 @@ public class DeleteObjectAction extends AwsAction {
                 try {
                     AmazonS3 s3 = table.getS3Client();
                     for ( S3ObjectSummary summary : selectedObjects ) {
-                        s3.deleteObject(summary.getBucketName(), summary.getKey());
+                        s3.deleteObjects(summary.getBucketName(), summary.getKey());
                         monitor.worked(1);
                     }
 
