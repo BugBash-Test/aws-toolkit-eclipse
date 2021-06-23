@@ -198,7 +198,7 @@ public class DeploymentProgressTrackerDialog extends Dialog {
                 boolean isFinalStatus = false;
 
                 DeploymentInfo deploymentInfo = client
-                        .getDeployment(new GetDeploymentRequest()
+                        .batchGetDeployments(new GetDeploymentRequest()
                                 .withDeploymentId(deploymentId))
                         .getDeploymentInfo();
                 String deploymentStatus = deploymentInfo.getStatus();
