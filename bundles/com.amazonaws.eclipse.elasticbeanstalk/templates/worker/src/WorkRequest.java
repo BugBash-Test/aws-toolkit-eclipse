@@ -1,5 +1,3 @@
-package {PACKAGE_NAME};
-
 import java.io.IOException;
 import java.io.InputStream;
 
