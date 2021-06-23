@@ -449,8 +449,12 @@ class CreateStackWizardFirstPage extends WizardPage {
                 if ( "None".equals(value) ) {
                     return 0;
                 } else {
-                    String minutes = value.substring(0, value.indexOf(' '));
-                    return Integer.parseInt(minutes);
+                    int indexVal = value.indexOf(' ');
+                    if(indexVal > 0)
+                    {
+                     String minutes = value.substring(0, value.indexOf(' '));
+                     return Integer.parseInt(minutes);
+                    }
                 }
             }
         });
