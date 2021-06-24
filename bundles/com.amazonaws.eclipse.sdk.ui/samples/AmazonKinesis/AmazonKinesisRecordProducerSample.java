@@ -134,7 +134,7 @@ public class AmazonKinesisRecordProducerSample {
             putRecordRequest.setStreamName(myStreamName);
             putRecordRequest.setData(ByteBuffer.wrap(String.format("testData-%d", createTime).getBytes()));
             putRecordRequest.setPartitionKey(String.format("partitionKey-%d", createTime));
-            PutRecordResult putRecordResult = kinesis.putRecord(putRecordRequest);
+            PutRecordResult putRecordResult = kinesis.putRecords(putRecordRequest);
             System.out.printf("Successfully put record, partition key : %s, ShardID : %s, SequenceNumber : %s.\n",
                     putRecordRequest.getPartitionKey(),
                     putRecordResult.getShardId(),
