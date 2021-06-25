@@ -163,7 +163,7 @@ public class QueueEditor extends EditorPart implements IRefreshable {
 
             while (iterator.hasNext()) {
                 Message message = iterator.next();
-                getClient().deleteMessage(new DeleteMessageRequest(queueEditorInput.getQueueUrl(), message.getReceiptHandle()));
+                getClient().deleteMessageBatch(new DeleteMessageRequest(queueEditorInput.getQueueUrl(), message.getReceiptHandle()));
             }
 
             new RefreshAction().run();
