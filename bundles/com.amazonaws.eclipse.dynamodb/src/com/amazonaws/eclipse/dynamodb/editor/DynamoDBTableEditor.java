@@ -1299,6 +1299,7 @@ public class DynamoDBTableEditor extends EditorPart {
                 markModified(item, editorComposite.editorText, row, column, multiValueEditorDialog.getValues(), dataType);
             }
             /* Don't do anything when the user pressed Cancel */
+            multiValueEditorDialog.close();
         }
     }
 
