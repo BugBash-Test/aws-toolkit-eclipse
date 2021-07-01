@@ -376,13 +376,7 @@ public class DeploymentProgressTrackerDialog extends Dialog {
                     return;
                 }
 
-                try {
-                    Thread.sleep(REFRESH_INTERVAL_MS);
-                } catch (InterruptedException e) {
-                    System.err.println("Interrupted when polling " +
-                            "lifecycle events from deployment instances.");
-                    throw e;
-                }
+               
             }
 
         } catch (Exception e) {
