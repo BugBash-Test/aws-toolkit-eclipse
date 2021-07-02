@@ -17,6 +17,8 @@ package com.amazonaws.eclipse.dynamodb;
 import java.util.Arrays;
 import java.util.Iterator;
 
+
+
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.util.IPropertyChangeListener;
