@@ -1282,24 +1282,24 @@ public class DynamoDBTableEditor extends EditorPart {
                                             final int column,
                                             final int row,
                                             final int selectedType) {
-            @SuppressWarnings("unchecked")
-            Map<String, AttributeValue> dynamoDbItem = (Map<String, AttributeValue>) item.getData();
-            MultiValueAttributeEditorDialog multiValueEditorDialog = new MultiValueAttributeEditorDialog(Display
-                    .getDefault().getActiveShell(), dynamoDbItem.get(attributeName), selectedType);
+                @SuppressWarnings("unchecked")
+                Map<String, AttributeValue> dynamoDbItem = (Map<String, AttributeValue>) item.getData();
+                MultiValueAttributeEditorDialog multiValueEditorDialog = new MultiValueAttributeEditorDialog(Display
+                        .getDefault().getActiveShell(), dynamoDbItem.get(attributeName), selectedType);
 
-            int returnValue = multiValueEditorDialog.open();
-            /* Save set */
-            if ( returnValue == 0 ) {
-                int dataType = editorComposite.getSelectedDataType(true);
-                markModified(item, editorComposite.editorText, row, column, multiValueEditorDialog.getValues(), dataType);
-            }
-            /* Save single value */
-            else if ( returnValue == 1 ) {
-                int dataType = editorComposite.getSelectedDataType(false);
-                markModified(item, editorComposite.editorText, row, column, multiValueEditorDialog.getValues(), dataType);
-            }
-            /* Don't do anything when the user pressed Cancel */
-            multiValueEditorDialog.close();
+                int returnValue = multiValueEditorDialog.open();
+                /* Save set */
+                if ( returnValue == 0 ) {
+                    int dataType = editorComposite.getSelectedDataType(true);
+                    markModified(item, editorComposite.editorText, row, column, multiValueEditorDialog.getValues(), dataType);
+                }
+                /* Save single value */
+                else if ( returnValue == 1 ) {
+                    int dataType = editorComposite.getSelectedDataType(false);
+                    markModified(item, editorComposite.editorText, row, column, multiValueEditorDialog.getValues(), dataType);
+                }
+                /* Don't do anything when the user pressed Cancel */
+                multiValueEditorDialog.close();
         }
     }
 
