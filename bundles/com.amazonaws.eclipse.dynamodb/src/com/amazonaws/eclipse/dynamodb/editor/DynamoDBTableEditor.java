@@ -1106,25 +1106,25 @@ public class DynamoDBTableEditor extends EditorPart {
             }
         }
 
-        /**
-         * Invokes a dialog showing a binary value or set of values.
-         */
-        private void invokeBinaryValueDialog(TableItem item, String attributeName, int column, int rowNum) {
-            Dialog dialog = new MessageDialog(
-                    Display.getDefault().getActiveShell(),
-                    "Binary attribute",
-                    AwsToolkitCore.getDefault().getImageRegistry().get(AwsToolkitCore.IMAGE_AWS_ICON),
-                    "This is a binary attribute.  Editing binary attributes is unsupported, " +
-                    "but you can copy the base64 encoding of this attribute to the clipboard.",
-                    MessageDialog.NONE, new String[] { "Copy to clipboard", "Cancel" }, 0);
-            int result = dialog.open();
-            if ( result == 0 ) {
-                Clipboard cb = new Clipboard(Display.getDefault());
-                String data = item.getText(column);
-                TextTransfer textTransfer = TextTransfer.getInstance();
-                cb.setContents(new Object[] { data }, new Transfer[] { textTransfer });
+            /**
+             * Invokes a dialog showing a binary value or set of values.
+             */
+            private void invokeBinaryValueDialog(TableItem item, String attributeName, int column, int rowNum) {
+                Dialog dialog = new MessageDialog(
+                        Display.getDefault().getActiveShell(),
+                        "Binary attribute",
+                        AwsToolkitCore.getDefault().getImageRegistry().get(AwsToolkitCore.IMAGE_AWS_ICON),
+                        "This is a binary attribute.  Editing binary attributes is unsupported, " +
+                        "but you can copy the base64 encoding of this attribute to the clipboard.",
+                        MessageDialog.NONE, new String[] { "Copy to clipboard", "Cancel" }, 0);
+                int result = dialog.open();
+                if ( result == 0 ) {
+                    Clipboard cb = new Clipboard(Display.getDefault());
+                    String data = item.getText(column);
+                    TextTransfer textTransfer = TextTransfer.getInstance();
+                    cb.setContents(new Object[] { data }, new Transfer[] { textTransfer });
+                }
             }
-        }
 
         /**
          * Deletes all selected items from the table.
