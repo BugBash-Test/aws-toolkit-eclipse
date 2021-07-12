@@ -53,6 +53,7 @@ import com.amazonaws.services.codecommit.model.RepositoryMetadata;
 public class CloneRepositoryWizard extends Wizard implements IImportWizard {
     protected IWorkbench workbench;
 
+    //dummy
     private final AWSCodeCommit client;
     private final String repositoryName;
     private final String currentProfile;
