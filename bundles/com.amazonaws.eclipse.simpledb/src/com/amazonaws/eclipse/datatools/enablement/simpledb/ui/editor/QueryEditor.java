@@ -118,6 +118,7 @@ public class QueryEditor extends EditorPart {
 
         String domain = this.resultDomain;
 
+        //test
         ArrayList<ReplaceableItem> items = new ArrayList<>();
         for ( String itemName : QueryEditor.this.editedCells.keySet() ) {
 
