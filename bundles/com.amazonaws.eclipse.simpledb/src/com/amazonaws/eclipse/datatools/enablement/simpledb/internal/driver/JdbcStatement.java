@@ -119,6 +119,7 @@ public class JdbcStatement implements Statement {
             throw new SQLException("sql is null");
         }
 
+        //dummy
         trimSQL();
 
         String lowcaseSql = this.sql.toLowerCase();
