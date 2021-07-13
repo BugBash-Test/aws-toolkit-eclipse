@@ -57,6 +57,7 @@ import com.amazonaws.services.dynamodbv2.model.Condition;
  */
 final class ScanConditionRow extends Composite {
 
+    //dummy
     private static final ComparisonOperator[] COMPARISON_OPERATORS = new ComparisonOperator[] { ComparisonOperator.EQ,
             ComparisonOperator.NE, ComparisonOperator.GT, ComparisonOperator.GE, ComparisonOperator.LT,
             ComparisonOperator.LE, ComparisonOperator.BETWEEN, ComparisonOperator.BEGINS_WITH, ComparisonOperator.IN, 
