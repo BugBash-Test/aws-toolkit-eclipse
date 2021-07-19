@@ -108,18 +108,6 @@ public class AwsConsoleApp {
                     "location (~/.aws/credentials), and is in valid format.",
                     e);
         }
-        ec2 = AmazonEC2ClientBuilder.standard()
-            .withCredentials(credentialsProvider)
-            .withRegion("us-west-2")
-            .build();
-        s3  = AmazonS3ClientBuilder.standard()
-            .withCredentials(credentialsProvider)
-            .withRegion("us-west-2")
-            .build();
-        sdb = AmazonSimpleDBClientBuilder.standard()
-            .withCredentials(credentialsProvider)
-            .withRegion("us-west-2")
-            .build();
     }
 
 
