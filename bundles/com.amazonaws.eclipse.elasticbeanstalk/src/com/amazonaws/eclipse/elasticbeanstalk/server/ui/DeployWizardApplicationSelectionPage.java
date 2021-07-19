@@ -581,54 +581,6 @@ final class DeployWizardApplicationSelectionPage extends AbstractDeployWizardPag
         }
     }
 
-    private final class LoadEnvironmentsThread extends CancelableThread {
-        @Override
-        public void run() {
-            final List<EnvironmentDescription> environments = new ArrayList<>();
-            try {
-                environments.addAll(elasticBeanstalkClient.describeEnvironments().getEnvironments());
-            } catch (Exception e) {
-                if (isServiceSignUpException(e)) {
-                    StatusManager.getManager().handle(newServiceSignUpErrorStatus(e), StatusManager.SHOW | StatusManager.LOG);
-                } else {
-                    Status status = new Status(Status.ERROR, ElasticBeanstalkPlugin.PLUGIN_ID,
-                        "Unable to load existing environments: " + e.getMessage(), e);
-                    StatusManager.getManager().handle(status, StatusManager.LOG);
-                }
-                setRunning(false);
-                return;
-            }
-
-            Display.getDefault().asyncExec(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        List<String> environmentNames = new ArrayList<>();
-                        for ( EnvironmentDescription environment : environments ) {
-                            // Skip any terminated environments, since we can safely reuse their names
-                            if ( isEnvironmentTerminated(environment) ) {
-                                continue;
-                            }
-                            environmentNames.add(environment.getEnvironmentName());
-                        }
-                        Collections.sort(environmentNames);
-
-                        synchronized (LoadEnvironmentsThread.this) {
-                            if ( !isCanceled() ) {
-                                existingEnvironmentNames.clear();
-                                existingEnvironmentNames.addAll(environmentNames);
-                                environmentNamesLoaded.setValue(true);
-                                runValidators();
-                            }
-                        }
-                    } finally {
-                        setRunning(false);
-                    }
-                }
-            });
-        }
-    }
-
     private boolean isEnvironmentTerminated(EnvironmentDescription environment) {
         if (environment == null || environment.getStatus() == null) {
             return false;
